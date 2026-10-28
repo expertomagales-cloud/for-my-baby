@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question 💗</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ffd1dc, #ffe6f0, #ffc2d8);
+    color: #8b2853;
+}
+
+.card {
+    width: 90%;
+    max-width: 430px;
+    padding: 35px 25px;
+    background: rgba(255,255,255,0.94);
+    border-radius: 28px;
+    text-align: center;
+    box-shadow: 0 15px 50px #c94b7840;
+    position: relative;
+    z-index: 2;
+    animation: appear 0.7s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.emoji {
+    font-size: 65px;
+    animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+    50% { transform: scale(1.13); }
+}
+
+h1 {
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+p {
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+    min-height: 55px;
+}
+
+button {
+    padding: 13px 26px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+    transform: scale(1.07);
+}
+
+.yes {
+    background: #ff4f91;
+    color: white;
+    box-shadow: 0 5px 15px #ff4f9140;
+}
+
+.no {
+    background: #ffe0eb;
+    color: #a83261;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#noBtn {
+    position: relative;
+}
+
+#message {
+    color: #e84379;
+    font-weight: bold;
+    min-height: 25px;
+    margin-top: 15px;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    pointer-events: none;
+    animation: floatUp 5s linear forwards;
+    z-index: 1;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.small {
+    font-size: 13px;
+    color: #b36a89;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="page1">
+    <div class="emoji">🥹💗</div>
+
+    <h1>Can I Ask You Something?</h1>
+
+    <p>
+        Be honest with me...
+        <br>
+        <strong>Do you think I smell good? 🌷</strong>
+    </p>
+
+    <div class="buttons">
+        <button class="yes" onclick="proceed()">
+            YES 💕
+        </button>
+
+        <button class="no" id="noBtn" onclick="moveNo()">
+            NO 😭
+        </button>
+    </div>
+
+    <div id="message"></div>
+    <p class="small">Choose wisely... hehe 🤭</p>
+</div>
+
+
+<div class="card hidden" id="page2">
+    <div class="emoji">🌹💗</div>
+
+    <h1>One More Thing...</h1>
+
+    <p>
+        There's something I've been wanting to tell you.
+    </p>
+
+    <p>
+        I genuinely like you, and I want to get to know you
+        better, make you smile, and show you that my intentions
+        are sincere.
+    </p>
+
+    <h2>Can I Court You? 🥹❤️</h2>
+
+    <p>It would mean a lot to me if you'd give me a chance.</p>
+
+    <div class="buttons">
+        <button class="yes" onclick="accept()">
+            Yes, you can! 💗
+        </button>
+
+        <button class="no" onclick="decline()">
+            I'm sorry... 🥺
+        </button>
+    </div>
+
+    <div id="finalMessage"></div>
+</div>
+
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+let attempts = 0;
+
+function moveNo() {
+    attempts++;
+
+    const maxX = Math.max(0, window.innerWidth - noBtn.offsetWidth - 20);
+    const maxY = Math.max(0, window.innerHeight - noBtn.offsetHeight - 20);
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+
+    if (attempts === 1) {
+        message.textContent = "Hey! Why are you clicking NO? 😂";
+    } else if (attempts === 3) {
+        message.textContent = "You can't catch the NO button! 🤣💗";
+    } else if (attempts >= 5) {
+        message.textContent = "HAHAHA! Just click YES already! 😭💕";
+    }
+}
+
+function proceed() {
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+    createHearts();
+}
+
+function accept() {
+    document.getElementById("finalMessage").innerHTML =
+        "<h2>YOU JUST MADE ME THE HAPPIEST! 🥹💖</h2>" +
+        "<p>Thank you for giving me a chance. " +
+        "I'll do my best to get to know you sincerely, " +
+        "respect your feelings, and make you smile. 🌹</p>";
+    createHearts();
+}
+
+function decline() {
+    document.getElementById("finalMessage").innerHTML =
+        "<h3>It's okay. 💗</h3>" +
+        "<p>I respect your decision. Thank you for being honest " +
+        "with me. I wish you happiness always. 🌷</p>";
+}
+
+function createHearts() {
+    for (let i = 0; i < 25; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = ["💗", "💕", "💖", "🌸", "❤️"][
+            Math.floor(Math.random() * 5)
+        ];
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (18 + Math.random() * 22) + "px";
+        heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 7000);
+    }
+}
+
+setInterval(() => {
+    if (Math.random() > 0.5) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = "20px";
+        heart.style.animationDuration = "5s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }
+}, 900);
+</script>
+
+</body>
+</html>
+
